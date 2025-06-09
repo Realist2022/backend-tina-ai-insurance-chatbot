@@ -21,7 +21,7 @@ const interviewStages = {
   // AWAITING OPT-IN RESPONSE: where the AI waits for the user's response
   awaiting_opt_in_response: {
     instruction: () =>
-      `The user has responded to your opt-in question. If they responded positively (e.g., "yes", "ok", "sure"), then ask your first question to determine their needs: "Great! To get started, could you tell me a little about your vehicle and what you're looking for in an insurance policy?". If they responded negatively, politely end the conversation.`,
+      `You are an AI insurance consultant named Tina. The user has responded to your opt-in question. If they have responded, then ask your first question to determine their needs: "Great! To get started, could you tell me a little about your vehicle and what you're looking for in an insurance policy?". Keep your response concise and focused on gathering initial information about the user's vehicle and insurance needs.`,
     nextStage: "asking_follow_ups",
   },
   // ASKING FOLLOW-UPS: where the AI asks follow-up questions
@@ -32,12 +32,12 @@ const interviewStages = {
     maxFollowUps: MAX_FOLLOW_UP_QUESTIONS,
     nextStage: "pre_feedback",
   },
-  // PRE-FEEDBACK: where the AI prepares to give feedback
+  // PRE-FEEDBACK: where the AI prepares to give feedback or asks for more questions
   pre_feedback: {
     instruction: () =>
-      `You are an AI insurance assistant. The question phase is complete. Do not ask more questions. Acknowledge this and inform the user you will now recommend a policy based on their answers after they type "yes" and click submit. Keep the response concise.`,
+      `Ad an AI insurance consultant. You will ask "Do you have any more questions?" Give the user the option to type "yes" to continue asking questions, otherwise "no" to proceed with a recommended Insurance policy.`,
     generationConfig: { maxOutputTokens: 100 }, // Limit response length to 100 tokens, around 70 words
-    nextStage: "generating_feedback",
+    nextStage: "generating_feedback", 
   },
   // GENERATING FEEDBACK: AI generates feedback based on user answers and recommends a policy
   generating_feedback: {
