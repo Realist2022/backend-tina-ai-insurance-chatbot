@@ -1,9 +1,9 @@
-// backend/controllers/chatController.js
+// backend/controller/ChatBotController.js
 
-const chatbotService = require("../services/ChatBotService"); // Adjust the path accordingly
+import chatbotService from "../services/ChatBotService.js";
 
 // MAIN HANDLER for the chat bot controller
-async function processChatRequest(req, res) {
+export async function processChatRequest(req, res) {
   const { sessionId, userResponse } = req.body;
 
   // ERROR HANDLING: Validate the sessionId and userResponse
@@ -71,7 +71,3 @@ async function processChatRequest(req, res) {
     res.status(500).json({ error: "Failed to process interview." });
   }
 }
-
-module.exports = {
-  processChatRequest,
-};

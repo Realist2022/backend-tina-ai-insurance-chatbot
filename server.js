@@ -1,9 +1,7 @@
-// server.js
-
-const express = require("express");
-const cors = require("cors");
-const chatRoutes = require("./routes/ChatRoutes"); // Corrected path // This path is correct based on our refactoring
-const dotenv = require("dotenv");
+import express from "express";
+import cors from "cors";
+import chatRoutes from "./routes/ChatRoutes.js"; // Ensure the file extension is included
+import dotenv from "dotenv";
 
 dotenv.config();
 
