@@ -10,7 +10,7 @@ This project is a backend for a ai interview chatbot called tina. This is linkin
 
 ### dependencies:
 
-1. npm install -y
+1. npm init -y
 2. npm install "@google/generative-ai": "^0.24.1"
 3. npm install "cors": "^2.8.5"
 4. npm install "dotenv": "^16.5.0"
