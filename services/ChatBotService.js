@@ -1,12 +1,10 @@
 // backend/services/chatbotService.js
-
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-require("dotenv").config();
-const {
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import "dotenv/config"; // Loads environment variables from .env file
+import {
   interviewStages,
-  INSURANCE_URL_CONTEXT,
   MAX_FOLLOW_UP_QUESTIONS,
-} = require("../prompts/InsurancePrompts"); // Adjust the path accordingly
+} from "../prompts/InsurancePrompts.js"; // Adjust the path and ensure .js extension
 
 // ERROR HANDLING: Check if GOOGLE_API_KEY is set in .env
 const apiKey = process.env.GOOGLE_API_KEY;
@@ -25,21 +23,22 @@ class ChatbotService {
     "interview_complete",
   ];
 
+  // Private class field for the generative model
+  #model;
+  // CHAT SESSION MANAGEMENT: Map to store chat histories
+  chatHistories = new Map();
+  // INTERVIEW STAGES
+  interviewStages = interviewStages;
+
   // CONSTRUCTOR KEY: initializes GoogleGenerativeAI
   constructor(apiKey) {
-    this.genAI = new GoogleGenerativeAI(apiKey);
-    this.model = this.genAI.getGenerativeModel({
+    const genAI = new GoogleGenerativeAI(apiKey);
+    this.#model = genAI.getGenerativeModel({
       model: "gemini-2.0-flash-lite",
     });
-
-    // CHAT SESSION MANAGEMENT: Map to store chat histories
-    this.chatHistories = new Map();
-
-    // INTERVIEW STAGES
-    this.interviewStages = interviewStages; // Use the imported interviewStages
   }
 
-  // SEND MODEL MESSAGE: This method sends a message to the model and returns the response
+  // SEND MODEL MESSAGE: This private method sends a message to the model and returns the response
   async #sendModelMessage(instruction, history, generationConfig = {}) {
     const safeHistory = history.filter(
       // Filter the chat history to remove any messages that should not be sent to the model
@@ -47,7 +46,7 @@ class ChatbotService {
     );
 
     // CREATE CHAT: This creates a chat session with the model
-    const chat = this.model.startChat({
+    const chat = this.#model.startChat({
       history: safeHistory.map(({ role, text }) => ({
         role,
         parts: [{ text }],
@@ -163,4 +162,4 @@ class ChatbotService {
 
 // Export a singleton instance of the chatbot service
 const chatbotServiceInstance = new ChatbotService(apiKey);
-module.exports = chatbotServiceInstance;
+export default chatbotServiceInstance;

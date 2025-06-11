@@ -1,17 +1,17 @@
 // backend/prompts/insurancePrompts.js
 
 // HARDCODED URL: context for insurance policies
-const INSURANCE_URL_CONTEXT = `
+export const INSURANCE_URL_CONTEXT = `
   - Mechanical Breakdown Insurance: https://www.moneyhub.co.nz/mechanical-breakdown-insurance.html
   - Car Insurance: https://www.moneyhub.co.nz/car-insurance.html
   - Third-Party Car Insurance: https://www.moneyhub.co.nz/third-party-car-insurance.html
 `;
 
 // MAXIMUM FOLLOW-UP QUESTIONS: defines the maximum number of follow-up questions
-const MAX_FOLLOW_UP_QUESTIONS = 2;
+export const MAX_FOLLOW_UP_QUESTIONS = 2;
 
 // INTERVIEW STAGES
-const interviewStages = {
+export const interviewStages = {
   initial: {
     // INITIAL STAGE: where the AI introduces itself
     instruction: () =>
@@ -27,7 +27,7 @@ const interviewStages = {
   // ASKING FOLLOW-UPS: where the AI asks follow-up questions
   asking_follow_ups: {
     instruction: () =>
-      `You are an AI insurance assistant with context on these policies: ${INSURANCE_URL_CONTEXT}. The customer has just responded. Based on their last answer and our conversation so far, ask one relevant follow-up question to gather more information and help us narrow down the best insurance policy for them. Focus on understanding their specific needs and circumstances. Keep it concise.`,
+      `You are an AI insurance assistant with context on these policies: ${INSURANCE_URL_CONTEXT}. The customer has just responded to your last question. Ask one more relevant follow-up question to clarify their needs and guide them towards the most suitable policy. Analyze their previous response to formulate your question. Keep it concise.`,
     generationConfig: { maxOutputTokens: 200 }, // Limit the response length to 200 tokens around 140 words
     maxFollowUps: MAX_FOLLOW_UP_QUESTIONS,
     nextStage: "pre_feedback",
@@ -35,9 +35,9 @@ const interviewStages = {
   // PRE-FEEDBACK: where the AI prepares to give feedback or asks for more questions
   pre_feedback: {
     instruction: () =>
-      `Ad an AI insurance consultant. You will ask "Do you have any more questions?" Give the user the option to type "yes" to continue asking questions, otherwise "no" to proceed with a recommended Insurance policy.`,
+      `As an AI insurance consultant. You will ask "Do you have any more questions?" Give the user the option to type "yes" to continue asking questions, otherwise "no" to proceed with a recommended Insurance policy.`,
     generationConfig: { maxOutputTokens: 100 }, // Limit response length to 100 tokens, around 70 words
-    nextStage: "generating_feedback", 
+    nextStage: "generating_feedback",
   },
   // GENERATING FEEDBACK: AI generates feedback based on user answers and recommends a policy
   generating_feedback: {
@@ -51,7 +51,7 @@ const interviewStages = {
       Review the user's answers: ${userAnswers
         .map((ans, idx) => `Answer ${idx + 1}: ${ans}`)
         .join("\n- ")} 
-        
+      
       Based on their answers and the mandatory business rules, recommend the most suitable insurance policy and explain why.`,
     generationConfig: { maxOutputTokens: 500 }, // Limit the response length to 500 tokens around 350 words
     nextStage: "interview_complete",
@@ -62,10 +62,4 @@ const interviewStages = {
       `The recommendation has been provided. Offer a polite closing statement. Thank the user for their time and invite them to ask any final questions. Keep your closing brief and friendly.`,
     generationConfig: { maxOutputTokens: 50 }, // Limit the response length to 50 tokens 35 words round about
   },
-};
-
-module.exports = {
-  INSURANCE_URL_CONTEXT,
-  interviewStages,
-  MAX_FOLLOW_UP_QUESTIONS,
 };
