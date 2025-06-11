@@ -27,7 +27,7 @@ export const interviewStages = {
   // ASKING FOLLOW-UPS: where the AI asks follow-up questions
   asking_follow_ups: {
     instruction: () =>
-      `You are an AI insurance assistant with context on these policies: ${INSURANCE_URL_CONTEXT}. The customer has just responded. Based on their last answer and our conversation so far, ask one relevant follow-up question to gather more information and help us narrow down the best insurance policy for them. Focus on understanding their specific needs and circumstances. Keep it concise.`,
+      `You are an AI insurance assistant with context on these policies: ${INSURANCE_URL_CONTEXT}. The customer has just responded to your last question. Ask one more relevant follow-up question to clarify their needs and guide them towards the most suitable policy. Analyze their previous response to formulate your question. Keep it concise.`,
     generationConfig: { maxOutputTokens: 200 }, // Limit the response length to 200 tokens around 140 words
     maxFollowUps: MAX_FOLLOW_UP_QUESTIONS,
     nextStage: "pre_feedback",
