@@ -2,7 +2,7 @@
 
 ## Brief Description 
 
-This project is a backend for a ai interview chatbot called tina. This is linking to google ai studio using @google generativeai library with es5 modules, this uses node.js with express. This will also be containerised with docker compose. 
+This project is a backend for a ai interview chatbot called tina. This is linking to google ai studio using @google generativeai library with es6 modules, this uses node.js with express. This will also be containerised with docker compose. 
 
 # Getting started
 
